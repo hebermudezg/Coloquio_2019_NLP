@@ -2,4 +2,4 @@
 
 App para mineria de texto.
 
-<a href="git_hub.html">Git</a>
+<a href="https://hebermudezg.github.io/Coloquio_2019_NLP/git_hub.html">Git</a>
