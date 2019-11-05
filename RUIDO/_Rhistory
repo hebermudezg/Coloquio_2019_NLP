@@ -1,0 +1,512 @@
+#Ad<- ad.test(MIN_dB, "pnorm", mean = ajuste.MIN$estimate[1], sd=ajuste.MIN$estimate[2])
+ll<- lillie.test(MIN_dB)
+Ks
+#Ad
+#sw
+#cv
+ll
+#Gr??ficos de cuantiles.
+GraficCuantiles <- function(datos, ajuste){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 2))
+with(data = NULL, {
+plot(ecdf(datos), main = NULL)
+curve(pnorm(x, ajuste$estimate[1], ajuste$estimate[2]), col = 2, add = T, lwd=2, main = NULL)
+qqPlot(datos, "norm", mean = ajuste$estimate[1], sd = ajuste$estimate[2], pch = 19)
+})
+title(main = "Comparaci??n de Cuantiles", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+GraficCuantiles(MIN_dB, ajuste.MIN)
+GraficCuantiles(Mean_dB, ajuste.Mean)
+GraficCuantiles(Mean_dB, ajuste.MAX)
+hist(MAX_dB)
+require(RcmdrMisc)
+require(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Recodificamos la variable SEMANA para que quede como factor.
+#Sonido <- within(Sonido, {
+#SEMANA <- Recode(SEMANA, '1 = "1"; 2 = "2"; ; ;', as.factor.result = TRUE)
+#})
+#Organizamos los niveles de los d??as para que se muestren en orden.
+Sonido$DIA <- with(Sonido, factor(DIA, levels = c('MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'),
+ordered = TRUE))
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+install.packages("RcdrMisc", dependencies = TRUE)
+install.packages("RcmdrMisc", dependencies = TRUE)
+install.packages("RcmdrMisc", dependencies = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+#Comparacion de medias por dias
+library(ggplot2)
+y<-density(Sonido$Mean_dB)
+g1 <- ggplot(Sonido, aes(x = Mean_dB, group = DIA, col = DIA))
+g1 + geom_line(stat = "density") + ggtitle("Comparacion por Dias") + theme(plot.title = element_text(hjust = 0.5)) + ylab("Proporciones") + xlab("dB")
+require(RcmdrMisc)
+require(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Recodificamos la variable SEMANA para que quede como factor.
+#Sonido <- within(Sonido, {
+#SEMANA <- Recode(SEMANA, '1 = "1"; 2 = "2"; ; ;', as.factor.result = TRUE)
+#})
+#Organizamos los niveles de los d??as para que se muestren en orden.
+Sonido$DIA <- with(Sonido, factor(DIA, levels = c('MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'),
+ordered = TRUE))
+require(RcmdrMisc)
+require(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Recodificamos la variable SEMANA para que quede como factor.
+#Sonido <- within(Sonido, {
+#SEMANA <- Recode(SEMANA, '1 = "1"; 2 = "2"; ; ;', as.factor.result = TRUE)
+#})
+#Organizamos los niveles de los d??as para que se muestren en orden.
+Sonido$DIA <- with(Sonido, factor(DIA, levels = c('MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'),
+ordered = TRUE))
+require(RcmdrMisc)
+require(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Recodificamos la variable SEMANA para que quede como factor.
+#Sonido <- within(Sonido, {
+#SEMANA <- Recode(SEMANA, '1 = "1"; 2 = "2"; ; ;', as.factor.result = TRUE)
+#})
+#Organizamos los niveles de los d??as para que se muestren en orden.
+Sonido$DIA <- with(Sonido, factor(DIA, levels = c('MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'),
+ordered = TRUE))
+require(RcmdrMisc)
+require(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Recodificamos la variable SEMANA para que quede como factor.
+#Sonido <- within(Sonido, {
+#SEMANA <- Recode(SEMANA, '1 = "1"; 2 = "2"; ; ;', as.factor.result = TRUE)
+#})
+#Organizamos los niveles de los d??as para que se muestren en orden.
+Sonido$DIA <- with(Sonido, factor(DIA, levels = c('MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'),
+ordered = TRUE))
+require(RcmdrMisc)
+require(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Recodificamos la variable SEMANA para que quede como factor.
+#Sonido <- within(Sonido, {
+#SEMANA <- Recode(SEMANA, '1 = "1"; 2 = "2"; ; ;', as.factor.result = TRUE)
+#})
+#Organizamos los niveles de los d??as para que se muestren en orden.
+Sonido$DIA <- with(Sonido, factor(DIA, levels = c('MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'),
+ordered = TRUE))
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+library(RcmdrMisc)
+library(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Recodificamos la variable SEMANA para que quede como factor.
+#Sonido <- within(Sonido, {
+#SEMANA <- Recode(SEMANA, '1 = "1"; 2 = "2"; ; ;', as.factor.result = TRUE)
+#})
+#Organizamos los niveles de los d??as para que se muestren en orden.
+Sonido$DIA <- with(Sonido, factor(DIA, levels = c('MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'),
+ordered = TRUE))
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+knitr::opts_chunk$set(echo = TRUE)
+#Lectura de la base de datos.
+Sonido <- read.csv2("Base de Datos TF.csv" ,na.string = ".")
+#Variable de Media.
+Sonido$Mean_dB <- with(Sonido, (MAX_dB + MIN_dB)/2)
+#Variable de Piso 1 y el piso 2.
+Sonido$PISO <- with(Sonido, ifelse(LUGAR == "Lu_1" | LUGAR == "Lu_2", "PISO_2", "PISO_1"))
+#Resultados
+str(Sonido)
+summary(Sonido)
+attach(Sonido)
+#Ajuste a la Normal
+require(MASS)
+require(car)
+ajuste.MIN <- fitdistr(MIN_dB,"normal")
+ajuste.Mean <- fitdistr(Mean_dB,"normal")
+ajuste.MAX <- fitdistr(MAX_dB,"normal")
+ajuste.MIN
+ajuste.MAX
+#Funci??n para gr??ficar densidades respecto a la te??rica normal.
+dibujarDensidades <- function(estadisticos, dataset, tituloX, tituloY, color) {
+curve(dnorm(x = x, mean = estadisticos$estimate[1], sd = estadisticos$estimate[2]), from = min(dataset), to = max(dataset),
+col = color, ylim = c(0,0.25), xlab = tituloX, ylab = tituloY, las=1, main="")
+lines(density(dataset), col = 2)
+}
+#Gr??ficos esperados a ver qupe tipo de distribuci??n es.
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1,3))
+with(data = NULL, {
+dibujarDensidades(ajuste.MIN, MIN_dB, "MIN_dB", "Densidad", "blue")
+dibujarDensidades(ajuste.Mean, Mean_dB, "Mean_dB", "Densidad", "blue")
+dibujarDensidades(ajuste.MAX, MAX_dB, "MAX_dB", "Densidad", "blue")
+})
+title(main = "Normales", line=-1,cex=1, outer = T, font.main=2)
+par(op)
+#Pruebas de Normalidad.
+require(goftest)
+Ks<- ks.test(MIN_dB, "pnorm", mean = ajuste.MIN$estimate[1], sd=ajuste.MIN$estimate[2])
+#sw<- shapiro.test(MIN_dB)
+require(nortest)
+#cv<- cvm.test(MIN_dB, "pnorm", mean = ajuste.MIN$estimate[1], sd=ajuste.MIN$estimate[2])
+#Ad<- ad.test(MIN_dB, "pnorm", mean = ajuste.MIN$estimate[1], sd=ajuste.MIN$estimate[2])
+ll<- lillie.test(MIN_dB)
+Ks
+#Ad
+#sw
+#cv
+ll
+#Gr??ficos de cuantiles.
+GraficCuantiles <- function(datos, ajuste){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 2))
+with(data = NULL, {
+plot(ecdf(datos), main = NULL)
+curve(pnorm(x, ajuste$estimate[1], ajuste$estimate[2]), col = 2, add = T, lwd=2, main = NULL)
+qqPlot(datos, "norm", mean = ajuste$estimate[1], sd = ajuste$estimate[2], pch = 19)
+})
+title(main = "Comparaci??n de Cuantiles", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+GraficCuantiles(MIN_dB, ajuste.MIN)
+GraficCuantiles(Mean_dB, ajuste.Mean)
+GraficCuantiles(Mean_dB, ajuste.MAX)
+hist(MAX_dB)
+library(RcmdrMisc)
+library(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Recodificamos la variable SEMANA para que quede como factor.
+#Sonido <- within(Sonido, {
+#SEMANA <- Recode(SEMANA, '1 = "1"; 2 = "2"; ; ;', as.factor.result = TRUE)
+#})
+#Organizamos los niveles de los d??as para que se muestren en orden.
+Sonido$DIA <- with(Sonido, factor(DIA, levels = c('MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'),
+ordered = TRUE))
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Par1,Par2,Par3,Cate, titulox, titulo1,titulo2,titulo3){
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 3))
+with(data = NULL, {
+with(Sonido, plotMeans(Par1, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo1))
+with(Sonido, plotMeans(Par2, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo2))
+with(Sonido, plotMeans(Par3, Cate, error.bars = "conf.int", level = 0.95, connect = TRUE, main = NULL, xlab = titulox, ylab = titulo3))
+})
+title(main = "Comparaci??n de medias", line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+knitr::opts_chunk$set(echo = TRUE)
+require(RcmdrMisc)
+require(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Parametro,Categorica, titulox, tituloy){
+with(Sonido, plotMeans(Parametro, Categorica, error.bars = "conf.int", level = 0.95, connect = TRUE, main = "Comparaci??n de medias", xlab = titulox, ylab = tituloy))
+}
+#Gr??fico de diferencia de medias respecto al PISO
+GenerarGraficosMedias(Mean_dB, Sonido$PISO, "PISO", "Decibeles")
+#Lectura de la base de datos.
+Sonido <- read.csv2("Base de Datos TF.csv" ,na.string = ".")
+#Variable de Media.
+Sonido$Mean_dB <- with(Sonido, (MAX_dB + MIN_dB)/2)
+#Variable de Piso 1 y el piso 2.
+Sonido$PISO <- with(Sonido, ifelse(LUGAR == "Lu_1" | LUGAR == "Lu_2", "PISO_2", "PISO_1"))
+#Resultados
+str(Sonido)
+summary(Sonido)
+attach(Sonido)
+Piso_1 <- droplevels(subset(Sonido, PISO == "PISO_1"))
+Piso_2 <- droplevels(subset(Sonido, PISO == "PISO_2"))
+Martes <- droplevels(subset(Sonido,  DIA == "MARTES"))
+Miercoles <- droplevels(subset(Sonido,  DIA == "MIERCOLES"))
+Jueves <- droplevels(subset(Sonido,  DIA == "JUEVES"))
+Viernes <- droplevels(subset(Sonido,  DIA == "VIERNES"))
+Lugar_1 <- droplevels(subset(Sonido, LUGAR == "Lu_1"))
+Lugar_2 <- droplevels(subset(Sonido, LUGAR == "Lu_2"))
+Lugar_3 <- droplevels(subset(Sonido, LUGAR == "Lu_3"))
+Lugar_4 <- droplevels(subset(Sonido, LUGAR == "Lu_4"))
+Lugar_5 <- droplevels(subset(Sonido, LUGAR == "Lu_5"))
+Semana_1 <- droplevels(subset(Sonido, SEMANA == "1"))
+Semana_2 <- droplevels(subset(Sonido, SEMANA == "2"))
+#Ajuste a la Normal
+require(MASS)
+require(car)
+ajuste.piso1 <- fitdistr(Piso_1$Mean_dB,"normal")
+ajuste.piso2 <- fitdistr(Piso_2$Mean_dB,"normal")
+ajuste.mart <- fitdistr(Martes$Mean_dB,"normal")
+ajuste.mier <- fitdistr(Miercoles$Mean_dB,"normal")
+ajuste.juev <- fitdistr(Jueves$Mean_dB,"normal")
+ajuste.vier <- fitdistr(Viernes$Mean_dB,"normal")
+ajuste.lugar1 <- fitdistr(Lugar_1$Mean_dB,"normal")
+ajuste.lugar2 <- fitdistr(Lugar_2$Mean_dB,"normal")
+ajuste.lugar3 <- fitdistr(Lugar_3$Mean_dB,"normal")
+ajuste.lugar4 <- fitdistr(Lugar_4$Mean_dB,"normal")
+ajuste.lugar5 <- fitdistr(Lugar_5$Mean_dB,"normal")
+ajuste.semana1 <- fitdistr(Semana_1$Mean_dB,"normal")
+ajuste.semana2 <- fitdistr(Semana_2$Mean_dB,"normal")
+#Funci??n para gr??ficar densidades respecto a la te??rica normal.
+dibujarDensidades <- function(estadisticos, dataset, tituloX, tituloY, color) {
+hist(dnorm(min(dataset):max(dataset), mean = estadisticos$estimate[1], sd = estadisticos$estimate[2]), col = color, ylim = c(0,0.25), xlab = tituloX, ylab = tituloY, las=1, main="")
+lines(density(dataset), col = 2)
+}
+hist(dnorm(min(dataset):max(dataset), mean = estadisticos$estimate[1], sd = estadisticos$estimate[2]), col = color, ylim = c(0,0.25), xlab = tituloX, ylab = tituloY, las=1, main="")
+lines(density(dataset), col = 2)
+#Gr??ficos esperados a ver qupe tipo de distribuci??n es.
+dibujarDensidades(ajuste.Mean, Mean_dB, "Mean_dB", "Densidad", "blue")
+sw <- shapiro.test(Semana_2$Mean_dB)
+Ad<- ad.test(Semana_2$Mean_dB)
+ll<- lillie.test(Semana_2$Mean_dB)
+#Ks
+sw
+ll
+Ad
+#Gr??ficos de cuantiles.
+GraficCuantiles <- function(datos, ajuste, texto){
+a <- paste("Comparaci??n de Cuantiles", as.character(texto), sep = " ")
+op <- par(no.readonly = TRUE)
+par(mfrow = c(1, 2))
+with(data = NULL, {
+plot(ecdf(datos), main = NULL)
+curve(pnorm(x, ajuste$estimate[1], ajuste$estimate[2]), col = 2, add = T, lwd=2, main = NULL)
+qqPlot(datos, "norm", mean = ajuste$estimate[1], sd = ajuste$estimate[2], pch = 19, ylab = "Decibeles", xlab = "Cuantil normal")
+})
+title(main = a, line = -1, cex = 1, outer = T, font.main = 2)
+par(op)
+}
+GraficCuantiles(Sonido$Mean_dB, ajuste.Mean, "Total")
+GraficCuantiles(Piso_1$Mean_dB, ajuste.piso1, "Piso 1")
+GraficCuantiles(Piso_2$Mean_dB, ajuste.piso2, "Piso 2")
+GraficCuantiles(Martes$Mean_dB, ajuste.mart, "Martes")
+GraficCuantiles(Miercoles$Mean_dB, ajuste.mier, "Mi??rcoles")
+GraficCuantiles(Jueves$Mean_dB, ajuste.juev, "Jueves")
+GraficCuantiles(Viernes$Mean_dB, ajuste.vier, "Viernes")
+GraficCuantiles(Lugar_1$Mean_dB, ajuste.lugar1, "Lugar 1")
+GraficCuantiles(Lugar_2$Mean_dB, ajuste.lugar2, "Lugar 2")
+GraficCuantiles(Lugar_3$Mean_dB, ajuste.lugar3, "Lugar 3")
+GraficCuantiles(Lugar_4$Mean_dB, ajuste.lugar4, "Lugar 4")
+GraficCuantiles(Lugar_5$Mean_dB, ajuste.lugar5, "Lugar 5")
+GraficCuantiles(Semana_1$Mean_dB, ajuste.semana1, "Semana 1")
+GraficCuantiles(Semana_2$Mean_dB, ajuste.semana2, "Semana 2")
+require(RcmdrMisc)
+require(sandwich)
+#Recodificamos la variable PISO para que quede como factor.
+Sonido <- within(Sonido, {
+PISO <- Recode(PISO, '1 = "PISO_1"; 2 = "PISO_2"; ; ;', as.factor.result=TRUE)
+})
+#Recodificamos la variable SEMANA para que quede como factor.
+Sonido <- within(Sonido, {
+SEMANA <- Recode(SEMANA, '1 = "1"; 2 = "2"; ; ;', as.factor.result = TRUE)
+})
+#Organizamos los niveles de los d??as para que se muestren en orden.
+Sonido$DIA <- with(Sonido, factor(DIA, levels = c('MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'),
+ordered = TRUE))
+`{r}
+#Funci??n de gr??ficos de diferencia de medias.
+GenerarGraficosMedias <- function(Parametro,Categorica, titulox, tituloy){
+with(Sonido, plotMeans(Parametro, Categorica, error.bars = "conf.int", level = 0.95, connect = TRUE, main = "Comparaci??n de medias", xlab = titulox, ylab = tituloy))
+}
+#Gr??fico de diferencia de medias respecto al PISO
+GenerarGraficosMedias(Mean_dB, Sonido$PISO, "PISO", "Decibeles")
+#Gr??fico de diferencia de medias respecto al LUGAR
+GenerarGraficosMedias(Mean_dB, Sonido$LUGAR, "LUGAR", "Decibeles")
+#Gr??fico de diferencia de medias respecto a la SEMANA
+GenerarGraficosMedias(Mean_dB, Sonido$SEMANA, "SEMANA", "Decibeles")
+#Gr??fico de diferencia de medias respecto al DIA
+GenerarGraficosMedias(Mean_dB, Sonido$DIA, "DIA", "Decibeles")
+```
+knitr::opts_chunk$set(echo = TRUE)
+#Lectura de la base de datos.
+Sonido <- read.csv2("Base de Datos TF.csv" ,na.string = ".")
+#Variable de Media.
+Sonido$Mean_dB <- with(Sonido, (MAX_dB + MIN_dB)/2)
+#Variable de Piso 1 y el piso 2.
+Sonido$PISO <- with(Sonido, ifelse(LUGAR == "Lu_1" | LUGAR == "Lu_2", "PISO_2", "PISO_1"))
+#Resultados
+str(Sonido)
+summary(Sonido)
+attach(Sonido)
+Piso_1 <- droplevels(subset(Sonido, PISO == "PISO_1"))
+Piso_2 <- droplevels(subset(Sonido, PISO == "PISO_2"))
+Martes <- droplevels(subset(Sonido,  DIA == "MARTES"))
+Miercoles <- droplevels(subset(Sonido,  DIA == "MIERCOLES"))
+Jueves <- droplevels(subset(Sonido,  DIA == "JUEVES"))
+Viernes <- droplevels(subset(Sonido,  DIA == "VIERNES"))
+Lugar_1 <- droplevels(subset(Sonido, LUGAR == "Lu_1"))
+Lugar_2 <- droplevels(subset(Sonido, LUGAR == "Lu_2"))
+Lugar_3 <- droplevels(subset(Sonido, LUGAR == "Lu_3"))
+Lugar_4 <- droplevels(subset(Sonido, LUGAR == "Lu_4"))
+Lugar_5 <- droplevels(subset(Sonido, LUGAR == "Lu_5"))
+Semana_1 <- droplevels(subset(Sonido, SEMANA == "1"))
+Semana_2 <- droplevels(subset(Sonido, SEMANA == "2"))
+#Ajuste a la Normal
+require(MASS)
+require(car)
+ajuste.piso1 <- fitdistr(Piso_1$Mean_dB,"normal")
+ajuste.piso2 <- fitdistr(Piso_2$Mean_dB,"normal")
+ajuste.mart <- fitdistr(Martes$Mean_dB,"normal")
+ajuste.mier <- fitdistr(Miercoles$Mean_dB,"normal")
+ajuste.juev <- fitdistr(Jueves$Mean_dB,"normal")
+ajuste.vier <- fitdistr(Viernes$Mean_dB,"normal")
+ajuste.lugar1 <- fitdistr(Lugar_1$Mean_dB,"normal")
+ajuste.lugar2 <- fitdistr(Lugar_2$Mean_dB,"normal")
+ajuste.lugar3 <- fitdistr(Lugar_3$Mean_dB,"normal")
+ajuste.lugar4 <- fitdistr(Lugar_4$Mean_dB,"normal")
+ajuste.lugar5 <- fitdistr(Lugar_5$Mean_dB,"normal")
+ajuste.semana1 <- fitdistr(Semana_1$Mean_dB,"normal")
+ajuste.semana2 <- fitdistr(Semana_2$Mean_dB,"normal")
+#Funci??n para gr??ficar densidades respecto a la te??rica normal.
+dibujarDensidades <- function(estadisticos, dataset, tituloX, tituloY, color) {
+hist(dnorm(min(dataset):max(dataset), mean = estadisticos$estimate[1], sd = estadisticos$estimate[2]), col = color, ylim = c(0,0.25), xlab = tituloX, ylab = tituloY, las=1, main="")
+lines(density(dataset), col = 2)
+}
+hist(dnorm(min(dataset):max(dataset), mean = estadisticos$estimate[1], sd = estadisticos$estimate[2]), col = color, ylim = c(0,0.25), xlab = tituloX, ylab = tituloY, las=1, main="")
