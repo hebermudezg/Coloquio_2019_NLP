@@ -1,0 +1,89 @@
+
+NavigationLayout:
+ 
+
+    MDNavigationDrawer:
+        drawer_logo: "kivymd_logo.png"
+        NavigationDrawerSubheader:
+            text: "Menu"
+
+        NavigationDrawerIconButton:
+            icon:"file-document-box-outline"
+            text: "Ingresar texto"
+            on_release:
+                screen_manager.current = "screen1"
+                
+        NavigationDrawerIconButton:
+            icon:'chart-bar'
+            text: "Graficos descriptivos"
+            on_release:
+                screen_manager.current = "screen2"
+
+        NavigationDrawerIconButton:
+            icon:"signature-text"
+            text: "Resumen"
+            on_release:
+                screen_manager.current = "screen3"
+
+
+        NavigationDrawerIconButton:
+            icon:'tag-faces'
+            text: "Nosotros"
+            on_release:
+                screen_manager.current = "screen4"
+
+
+        
+
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDToolbar:
+            title: "Texto App"
+            md_bg_color: app.theme_cls.primary_color
+            left_action_items: [['menu', lambda x: root.toggle_nav_drawer()]]
+
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                name: "screen1"
+
+                MDRoundFlatIconButton:
+                    text: "Open manager"
+                    icon: "folder"
+                    pos_hint: {'center_x': .5, 'center_y': 0.8}
+                    on_release: app.file_manager_open()
+               
+                MDTextFieldRect:
+                    hint_text: "Ingresa tu texto"
+                    size_hint: None, None
+                    size: Window.width - dp(30), dp(100)
+                    pos_hint: {'center_y': .5, 'center_x': .5}
+                
+                
+
+                
+
+            Screen:
+                name: "screen2"
+                MDLabel:
+                    text: "Screen 2"
+
+                
+
+              
+
+                    
+
+
+
+            Screen:
+                name: "screen3"
+                MDLabel:
+                    text: "Screen 3"
+
+            Screen:
+                name: "screen4"
+                MDLabel:
+                    text: "Screen 4"

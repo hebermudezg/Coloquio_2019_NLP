@@ -1,3 +1,5 @@
+
+
 import os
 import sys
 import webbrowser
@@ -155,28 +157,28 @@ main_widget_kv = """
     drawer_logo: f'{environ["KITCHEN_SINK_ASSETS"]}drawer_logo.png'
 
     NavigationDrawerSubheader:
-        text: "Menu of Examples:"
+        text: "Menú"
         icon: app.drawer_item_icons.get(self.text, 'checkbox-blank-circle')
         on_release:
             app.show_screen(self.text)
             app.set_title_toolbar(self.text)
 
     NavigationDrawerIconButton:
-        text: "Ingresar texto"
+        text: "Bottom App Bar"
         icon: app.drawer_item_icons.get(self.text, 'checkbox-blank-circle')
         on_release:
             app.show_screen(self.text)
             app.set_title_toolbar(self.text)
 
     NavigationDrawerIconButton:
-        text: "Análisis de texto"
+        text: "Bottom Navigation"
         icon: app.drawer_item_icons.get(self.text, 'checkbox-blank-circle')
         on_release:
             app.show_screen(self.text)
             app.set_title_toolbar(self.text)
 
     NavigationDrawerIconButton:
-        text: "Resumen"
+        text: "Bottom Sheets"
         icon: app.drawer_item_icons.get(self.text, 'checkbox-blank-circle')
         on_release:
             app.show_screen(self.text)
@@ -497,7 +499,7 @@ NavigationLayout:
                     on_leave:
                         app.theme_cls.primary_palette = "BlueGray"
                         app.set_chevron_menu()
-                        app.set_title_toolbar("Text App")
+                        app.set_title_toolbar("Kitchen Sink")
                         toolbar.height = "56dp"
 """
 
@@ -507,7 +509,7 @@ class KitchenSink(App, Screens):
     theme_cls.primary_palette = "BlueGray"
     theme_cls.accent_palette = "Gray"
     previous_date = ObjectProperty()
-    title = "Text App"
+    title = "Text Analysis"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -551,7 +553,7 @@ class KitchenSink(App, Screens):
             self.theme_cls.primary_color
         )
         self.drawer_item_icons = {
-            "Ingresar texto": "dock-bottom",
+            "Bottom App Bar": "dock-bottom",
             "Buttons": "rectangle",
             "Cards": "cards-variant",
             "Dialogs": "window-open",
@@ -573,8 +575,8 @@ class KitchenSink(App, Screens):
             "Themes": "theme-light-dark",
             "Toolbars": "set-top-box",
             "User Animation Card": "animation",
-            "Análisis de texto": "picture-in-picture-bottom-right",
-            "Resumen": "file-document-box-outline",
+            "Bottom Navigation": "picture-in-picture-bottom-right",
+            "Bottom Sheets": "file-document-box-outline",
             "Chips": "label-variant",
             "Fan Manager": "fan",
             "Progress & activity": "progress-check",
@@ -862,7 +864,7 @@ class KitchenSink(App, Screens):
             set_list_drop_items()
 
         MDDialog(
-            title="Text App",
+            title="Kitchen Sink",
             size_hint=(0.8, 0.4),
             text_button_ok="Item",
             text="Open MDDropDownItem or ListButtonDropDown?",
@@ -888,7 +890,7 @@ class KitchenSink(App, Screens):
             self.manager.open()
 
         MDDialog(
-            title="Text App",
+            title="Kitchen Sink",
             size_hint=(0.8, 0.4),
             text_button_ok="List",
             text="Open manager with 'list' or 'previous' mode?",
@@ -1469,7 +1471,7 @@ class KitchenSink(App, Screens):
                 self.data[name_screen]["object"] = eval(
                     self.data[name_screen]["Factory"]
                 )
-                if name_screen == "Ingresar texto":
+                if name_screen == "Bottom App Bar":
                     self.set_appbar()
                     self.data[name_screen]["object"].add_widget(self.md_app_bar)
                 if name_screen != "Popup Screen":
