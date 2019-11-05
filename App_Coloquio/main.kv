@@ -1,7 +1,7 @@
 
 NavigationLayout:
- 
 
+# ************************Barra de navegacion menú*********************** 
     MDNavigationDrawer:
         drawer_logo: "kivymd_logo.png"
         NavigationDrawerSubheader:
@@ -33,9 +33,6 @@ NavigationLayout:
                 screen_manager.current = "screen4"
 
 
-        
-
-
     BoxLayout:
         orientation: 'vertical'
 
@@ -44,8 +41,12 @@ NavigationLayout:
             md_bg_color: app.theme_cls.primary_color
             left_action_items: [['menu', lambda x: root.toggle_nav_drawer()]]
 
+# ************************Paneles***********************
+
         ScreenManager:
             id: screen_manager
+
+            # ************************Panel 1***********************
             Screen:
                 name: "screen1"
 
@@ -62,27 +63,22 @@ NavigationLayout:
                     pos_hint: {'center_y': .5, 'center_x': .5}
                 
                 
-
-                
-
+            # ************************Panel 2***********************
             Screen:
                 name: "screen2"
                 MDLabel:
                     text: "Screen 2"
-
-                
-
-              
-
                     
 
 
-
+            # ************************Panel 3***********************
             Screen:
                 name: "screen3"
                 MDLabel:
                     text: "Screen 3"
 
+            # ************************Panel 4***********************
+            
             Screen:
                 name: "screen4"
                 MDLabel:
