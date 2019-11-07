@@ -1,0 +1,7 @@
+https://gist.github.com/chriddyp/3d2454905d8f01886d651f207e2419f0
+
+python -m pip install plotly==2.0.11;
+python -m pip install dash==0.17.5;
+python -m pip install dash_renderer;
+python -m pip install dash_html_components
+python -m pip install pandas_datareader
