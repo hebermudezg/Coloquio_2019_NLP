@@ -38,12 +38,7 @@ app.layout = html.Div([
 def render_content(tab):
     if tab == 'tab-1':
         return html.Div([
-            html.H1('Ingrese su texto'),
-            dcc.Input(id='input_texto_1',
-            value='Escriba su texto',
-            type='text',
-            style={'height':200, 'width': 1000 })
-
+            html.H3('Tab content 1')
         ])
     elif tab == 'tab-2':
         return html.Div([
