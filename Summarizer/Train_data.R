@@ -1,34 +1,37 @@
-data<- read.csv("Downloads/Summarizer/data_food.csv")
-data_origi<- read.csv("Downloads/Summarizer/Reviews.csv")
-#save(x = a , file = "data_100.csv")
-a<- data[1:100,]
+data<- read.csv("data_1000.csv")
+View(data)
+subdata <- data[1:400,]
+#save(x = subdata , file = "data_300.csv")
 
-text1 <- paste(a[,'Text'],collapse = ' << ')
+text1 <- paste(subdata[,'Text'], collapse = ' Jijueputa ')
+write.table(text1, file = "text_400.txt", row.names = FALSE)
 
-write.table(text1, file = "data_text.txt",
-            row.names = FALSE)
 
-summarize <- paste(a[,'Summary'],collapse = ' << ')
-write.table(summarize, file = "data_sum.txt",
-            row.names = FALSE)
+summarize <- paste(subdata[,'Summary'],collapse = ' Jijueputa ')
+write.table(summarize, file = "sum_400.txt",row.names = FALSE)
 
 #================
 
-archivo <- "Downloads/Summarizer/text_trad_100.txt"
+archivo <- "text_400_trad.txt"
 con <- file(archivo, open="r") # Abrimos la conexión
 text_trad <- readLines(con)   
 
-archivo <- "Downloads/Summarizer/sum_trad_100.txt"
-con <- file(archivo, open="r") # Abrimos la conexión
+archivo2 <- "catre.txt"
+con <- file(archivo2, open="r") # Abrimos la conexión
 sum_trad <- readLines(con)
 
 #================
-Text<- strsplit(text_trad, " << ")
-Summary<- strsplit(sum_trad, " << ")
+Text<- as.data.frame(strsplit(text_trad, " Jijueputa "),col.names = F)
+View(Text)
 
-data_trad<- data.frame(Text, Summary)
+summ<- as.data.frame(strsplit(sum_trad, " Catretriplejijueputa "),col.names = F)
+View(summ)
 
-save(file = data_trad.csv)
+data_trad_400<- data.frame(summ, Text)
+colnames(data_trad_400) <- c("Summary","Text")
+View(data_trad_400)
+
+write.csv(x = data_trad_400, file = "data_trad_400.csv")
 
 
 
