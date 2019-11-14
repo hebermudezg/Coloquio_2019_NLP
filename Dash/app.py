@@ -131,7 +131,7 @@ app.layout = html.Div(children=[
                     orientation="h"
 
                     )
-            ]})
+          ]})
 ])
 
 
