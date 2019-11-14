@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
 import dash
-import dash_core_components as dcc
+from dash.dependencies import Input, Output
 import dash_html_components as html
+import dash_core_components as dcc
+
 
 
 import pandas as pd
@@ -9,6 +10,7 @@ import plotly.graph_objs as go
 
 
 #************************************************* Extraer de URL *************************************
+
 def extraer_link(URL):
   #Importar librerias
   import bs4 as bs # web scraping
@@ -25,11 +27,9 @@ def extraer_link(URL):
   return(origin_text)
 
 URL = "https://www.biografiasyvidas.com/biografia/d/dali.htm"
-crudo= extraer_link(URL)
+crudo= extraer_link(URL) #llamado de la funcion
 
-
-
-#*************************************************************************************************************
+#************************************** Limpiar texto *********************************************
 
 def Cleaner_text_sin_tok(text1):
   #minusculas
@@ -80,11 +80,10 @@ def Cleaner_text_sin_tok(text1):
 
   return(text1)
 
-text = Cleaner_text_sin_tok(crudo)
+text = Cleaner_text_sin_tok(crudo) #llamado de la funcion
 
+## NGrams **************************************************************************************
 
-
-## Graficar **************************************************************************************
 def df_py(text,n,N):
   import nltk
   from nltk import ngrams
@@ -104,37 +103,63 @@ def df_py(text,n,N):
   bigram_df['gram'] = bigram_df['gram'].apply(lambda x: "'" + str(x) + "'")
   return(bigram_df)
 
+df = df_py(text,2,11)#llamado de la funcion
 
 
-
-# hoja de estilos *****************************************************************************
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-df = df_py(text,2,11)
-
-
-app.layout = html.Div(children=[
-
-  html.H1(
-        children='Hello Dash'
-    ),
-
-  dcc.Graph(
-        id='life-exp-vs-gdp',
-        figure={
-            'data': [
-                go.Bar(
-                    x=df["count"],
-                    y=df["gram"],
-                    orientation="h"
-
-                    )
-            ]})
+app.layout = html.Div([
+    html.H1('Dash Tabs component demo'),
+    dcc.Tabs(id="tabs-example", value='tab-1-example', children=[
+        dcc.Tab(label='Texto', value='tab-1-example'),
+        dcc.Tab(label='Gráficos', value='tab-2-example'),
+        dcc.Tab(label='Resumen', value='tab-3-example'),
+    ]),
+    html.Div(id='tabs-content-example')
 ])
 
 
+@app.callback(Output('tabs-content-example', 'children'),
+              [Input('tabs-example', 'value')])
+def render_content(tab):
+    if tab == 'tab-1-example':
+        return html.Div([
+            html.H3('Tab content 1'),
+            
+        ])
+        
+    elif tab == 'tab-2-example':
+        return html.Div([
+            html.H3('Tab content 2'),
+            dcc.Graph(
+                id='graph-1-tabs',
+                figure={
+                    'data': [{
+                        'x': df["count"],
+                        'y': df["gram"],
+                        'type': 'bar',
+                        'orientation': 'h'
+                    }]
+                }
+            )
+        ])
+    
+    elif tab == 'tab-3-example':
+        return html.Div([
+            html.H3('Tab content 3'),
+            dcc.Graph(
+                id='graph-3-tabs',
+                figure={
+                    'data': [{
+                        'x': [1, 2, 3],
+                        'y': [5, 10, 6],
+                        'type': 'bar'
+                    }]
+                }
+            )
+        ])
 
 
 if __name__ == '__main__':
