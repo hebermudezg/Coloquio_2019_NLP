@@ -16,22 +16,30 @@ shinyServer(function(input, output) {
 
     })
     
-    # Extraccion va en un evento reactivo dado que la URL cambia cada vez que se use
+
+##*********************** Scraping
     extraccion <- reactive({
-      lego_movie <- html(input$URL)
-      lego_movie %>%
-        html_nodes("p") %>%
-        html_text()
+      URl_li1 <- input$URL1
+      contenido_texto <- read_html(URl_li1)
+      texto_crudo <-paste(contenido_texto %>% html_nodes("p") %>%  html_text(), collapse = " ")
       
-      })
-  
-    # renderizar para luego mostrar en la ui. 
-    output$text_scrapiado <- renderText({
-      extraccion()
-    
+      URl_li2 <- input$URL2
+      contenido_texto <- read_html(URl_li2)
+      texto_crudo2 <-paste(contenido_texto %>% html_nodes("p") %>%  html_text(), collapse = " ")
+      
+      
+      tabla_texto <- data.frame(texto=rbind(texto_crudo,texto_crudo2))
+        
     })
     
     
+    
+    
+    # Renderizar tabal para mostrar
+    output$table <- renderDataTable(extraccion())
+    
+#****************************    
+
     
 
 

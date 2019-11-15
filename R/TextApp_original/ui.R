@@ -3,8 +3,6 @@ library(shinydashboard)
 library(LDAvis)
 library(tidyverse)
 
-setwd("/media/esteban/9A049D9D049D7D47/National-University-of-Colombia/Coloquio_2019_NLP/R/janus-dashboard/shiny-dashboard")
-df_responses_tidy <- read_csv("../data/generic-data.csv")
 
 label_col1 <- "Texto 1"
 label_col2 <- "Texo 2"
@@ -42,20 +40,17 @@ shinyUI(
                           # Nadeem is doing
                           fluidRow(
                             wellPanel( h4("Filter the table by the categories in each column"), 
-                                       textInput(inputId="URL", label = "Ingresa la URL del sitio web", value = "", placeholder = "Ingresa la URL"),
-                                       h4("Filter the table by the categories in each column"), 
-                                       fileInput('upload_text', label = "Suba texto desde su computador"),
-                                       fileInput('upload_text', label = "Suba texto desde su computador")
-                                       
-                                       
+                                       textInput(inputId="URL1", label = "Ingresa la URL del sitio web", value = "", placeholder = "Ingresa la URL"),
+                                       textInput(inputId="URL2", label = "Ingresa la URL del sitio web", value = "", placeholder = "Ingresa la URL"),
+                                       textInput(inputId="URL3", label = "Ingresa la URL del sitio web", value = "", placeholder = "Ingresa la URL")
                                        
                             ))
 
                           ),
                   
                 ## Texto escrapiado ************************************************
-                    h6(textOutput(outputId="text_scrapiado"))
-                
+                  
+                          dataTableOutput('table')
             
                   ),
           
